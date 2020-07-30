@@ -2,13 +2,13 @@
 	<div class="navbar">
 		<div class="navbar-logo">
 			<img src="../assets/img/navbar/logo.png" height="60px">
-			<i class="el-icon-s-fold" style="cursor: pointer;" @click="emits"></i>
+			<i class="el-icon-s-fold" style="cursor: pointer;" @click="handleChangetype"></i>
 		</div>
 		<div class="navbar-select">
-			<el-avatar size='small' :src="ruleForm.avatar"></el-avatar>
+			<el-avatar size='small' :src="user.avatar"></el-avatar>
 			<el-dropdown>
 				<span class="el-dropdown-link">
-					{{ruleForm.username}}
+					{{user.fullname}}
 					<i class="el-icon-arrow-down el-icon--right"></i>
 				</span>
 				<el-dropdown-menu slot="dropdown">
@@ -27,32 +27,21 @@
 	export default {
 		data() {
 			return {
-				isShow: false,
-				ruleForm: {
-					username: '',
-					fullname: '',
-					sex: '',
-					tel: '',
-					role: '',
-					avatar: '',
-				},
+				
 			};
 		},
 		created() {
-			this.loadList();
+			this.$store.dispatch('loadProfile')
+		},
+		computed:{
+			user(){
+				return this.$store.state.profile;
+			}
 		},
 		methods: {
 			//获取信息
-			async loadList() {
-				let id = sessionStorage.uid;
-				let { status, data } = await User.info({ id });
-				if (status) {
-					this.ruleForm = data;
-				}
-			},
-			emits() {
-				this.isShow = !this.isShow;
-				this.$emit('change', this.isShow);
+			handleChangetype() {
+				this.$store.commit("changeType");
 			},
 		}
 	}

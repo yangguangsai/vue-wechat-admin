@@ -2,12 +2,12 @@
 	<el-container>
 		<!-- 顶部菜单 -->
 		<el-header>
-			<NavBar @change='handleMenu($event)'></NavBar>
+			<NavBar></NavBar>
 		</el-header>
 		<el-container>
 			<!-- 侧边栏菜单 -->
-			<el-aside style='width: 200px;'>
-				<LeftMenu :isCollapse='isShow'></LeftMenu>
+			<el-aside width="auto">
+				<LeftMenu></LeftMenu>
 			</el-aside>
 			<!-- 主题内容 -->
 			<el-main>
@@ -22,20 +22,10 @@
 	import LeftMenu from '@/components/LeftMenu.vue'
 
 	export default { /* 以组件的形式 供外部使用 */
-		data(){
-			return {
-				isShow:false
-			}
-		},
 		components: { //创建组件
 			NavBar,
 			LeftMenu
 		},
-		methods: {
-			handleMenu(val) {
-				this.isShow = val;
-			},
-		}
 	}
 </script>
 

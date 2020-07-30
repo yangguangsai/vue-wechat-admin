@@ -94,14 +94,8 @@
 			};
 		},
 		created() {
-			this.loadList();
+			this.ruleForm = { ...this.$store.state.profile };
 			this.loadRoleList();
-		},
-		watch: {
-			'$route'(to, from) {
-				let { id } = to.params;
-				this.loadList(id);
-			}
 		},
 		methods: {
 			//获取角色列表信息
@@ -111,32 +105,23 @@
 					this.roleList = data;
 				}
 			},
-			//获取信息
-			async loadList() {
-				let id = sessionStorage.uid;
-				let { status, data } = await User.info({ id });
-				if (status) {
-					this.ruleForm = data;
-				}
-			},
-
 			//头像上传成功
 			handleUploadSuccess(res) {
 				this.ruleForm.avatar = res.src;
 			},
-
 			//编辑个人信息
-			submitForm(formName) {
-				this.$refs[formName].validate(async (valid) => {
-					if (valid) {
-						let { status, msg } = await User.edit(this.ruleForm);
-						if (status) {
-							this.$message.success('修改成功!');
-							//更新DOM
-							this.loadList();
-						}
-					}
-				});
+			submitForm( /* formName */ ) {
+				this.$store.dispatch('updateProfile', { ...this.ruleForm })
+				// this.$refs[formName].validate(async (valid) => {
+				// 	if (valid) {
+				// 		let { status, msg } = await User.edit(this.ruleForm);
+				// 		if (status) {
+				// 			this.$message.success('修改成功!');
+				// 			//更新DOM
+				// 			this.$store.state.profile = this.ruleForm;
+				// 		}
+				// 	}
+				// });
 			},
 			//手机号验证
 			isCellPhone(val) {

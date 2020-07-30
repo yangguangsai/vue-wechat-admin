@@ -67,13 +67,17 @@
 </script>
 <script>
 	export default {
-		props: ['isCollapse'],
 		methods: {
 			handleOpen(key, keyPath) {
 				console.log(key, keyPath);
 			},
 			handleClose(key, keyPath) {
 				console.log(key, keyPath);
+			}
+		},
+		computed:{
+			isCollapse(){
+				return this.$store.state.isCollapse;
 			}
 		}
 	}
